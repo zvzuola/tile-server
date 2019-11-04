@@ -90,22 +90,13 @@ async function downloadTile(level, options, callback) {
     let curX, curY, curLevel
     try {
         for (let x = startX ? startX : topLeftTile.tileX; x <= bottomRightTile.tileX; x++) {
-            if (x === startX && startY !== undefined) {
-                for (let y = startY; y <= bottomRightTile.tileY; y++) {
-                    curX = x
-                    curY = y
-                    curLevel = level
-                    const uri = `http://mt0.google.cn/vt/lyrs=s&z=${level}&x=${x}&y=${y}`
-                    await downloadImage(uri, `${dir}/${level}/${x}`, `${dir}/${level}/${x}/${y}.jpg`)
-                }
-            } else {
-                for (let y = topLeftTile.tileY; y <= bottomRightTile.tileY; y++) {
-                    curX = x
-                    curY = y
-                    curLevel = level
-                    const uri = `http://mt0.google.cn/vt/lyrs=s&z=${level}&x=${x}&y=${y}`
-                    await downloadImage(uri, `${dir}/${level}/${x}`, `${dir}/${level}/${x}/${y}.jpg`)
-                }
+            let tileY = x === startX && startY !== undefined ? startY : topLeftTile.tileY
+            for (let y = tileY; y <= bottomRightTile.tileY; y++) {
+                curX = x
+                curY = y
+                curLevel = level
+                const uri = `http://mt0.google.cn/vt/lyrs=s&z=${level}&x=${x}&y=${y}`
+                await downloadImage(uri, `${dir}/${level}/${x}`, `${dir}/${level}/${x}/${y}.jpg`)
             }
         }
     }

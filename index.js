@@ -11,4 +11,6 @@ function download(level, x, y) {
     })
 }
 
-download(9)
+for(let i = 0; i < 8; i++) {
+    download(i)
+}
